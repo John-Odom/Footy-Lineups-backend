@@ -1,0 +1,2 @@
+class SimulatedLineupsController < ApplicationController
+end

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  lineup_id: MyString
+  user_id: MyString
+  content: MyString
+
+two:
+  lineup_id: MyString
+  user_id: MyString
+  content: MyString

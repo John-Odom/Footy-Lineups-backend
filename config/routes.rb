@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :teams, only: [:index, :show]
   resources :players, only: [:index, :show]
   resources :lineups
+  resources :comments, only: [:index]
   resources :users, only: [:create, :index]
       post '/login', to: 'sessions#create'
       get '/login', to: 'sessions#index'

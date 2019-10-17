@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   resources :players, only: [:index, :show]
   resources :lineups
   resources :lineup_players
-  resources :comments, only: [:index]
+  resources :comments
+  resources :likes
   resources :users, only: [:create, :index]
       post '/login', to: 'sessions#create'
       get '/login', to: 'sessions#index'

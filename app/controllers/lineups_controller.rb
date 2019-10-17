@@ -1,7 +1,12 @@
 class LineupsController < ApplicationController
+
     def index
         lineups = Lineup.all
-        render json: lineups, include:[:lineup_players]   
+        render json: lineups, :include => [:lineup_players, { :comments=> {
+                :include => { :user => {
+                    :only => :username} }} }, { :likes=> {
+                        :include => { :user => {
+                            :only => :username} }} } ]
     end
 
     def show
@@ -12,7 +17,7 @@ class LineupsController < ApplicationController
     def create
         lineup = Lineup.new(
             "name":params["data"]["name"],
-            "user_id":params["data"]["user"]["id"],
+            "user_id":params["user"]["id"],
             "formation":params["data"]["formation"]
         )
         goalkeeper=Player.find(params["data"]["goalkeeper"][0]["id"])
@@ -76,7 +81,7 @@ class LineupsController < ApplicationController
 
     def destroy
         lineup = Lineup.find(params[:id])
-        byebug
+        # byebug
         lineup.destroy
         render json: {message: "Your team has been deleted!"}
     end

@@ -6,4 +6,7 @@ class Lineup < ApplicationRecord
     has_many :likes
     has_many :simulated_lineups
     has_many :simulations, through: :simulated_lineups
+
+    
+
 end

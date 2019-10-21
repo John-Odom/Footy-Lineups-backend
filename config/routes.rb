@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :lineup_players
   resources :comments
   resources :likes
-  resources :users, only: [:create, :index]
+  resources :users, only: [:create, :index, :update]
       post '/login', to: 'sessions#create'
       get '/login', to: 'sessions#index'
       get '/profile', to: 'users#profile'

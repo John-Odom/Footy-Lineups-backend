@@ -11,4 +11,10 @@ class LikesController < ApplicationController
         render json: like
     end
 
+    def destroy
+        like = Like.find(params[:id])
+        like.destroy
+        render json: {message: "Your like has been deleted!"}
+    end
+
 end

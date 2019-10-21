@@ -2,11 +2,17 @@ class LineupsController < ApplicationController
 
     def index
         lineups = Lineup.all
-        render json: lineups, :include => [:lineup_players, { :comments=> {
+        render json: lineups, :include => [:lineup_players, 
+            { :team=> {
+                :only => :club_name} }, 
+            { :comments=> {
                 :include => { :user => {
-                    :only => :username} }} }, { :likes=> {
-                        :include => { :user => {
-                            :only => :username} }} } ]
+                    :only => :username} }} }, 
+            { :user=> {
+                :only => :username} },
+            { :likes=> {
+                :include => { :user => {
+                    :only => :username} }} } ]
     end
 
     def show
@@ -15,10 +21,12 @@ class LineupsController < ApplicationController
     end
 
     def create
+        
         lineup = Lineup.new(
             "name":params["data"]["name"],
             "user_id":params["user"]["id"],
-            "formation":params["data"]["formation"]
+            "formation":params["data"]["formation"],
+            "team_id":params["data"]["selectedClub"]["id"]
         )
         goalkeeper=Player.find(params["data"]["goalkeeper"][0]["id"])
         lb=Player.find(params["data"]["lb"][0]["id"])
@@ -43,7 +51,6 @@ class LineupsController < ApplicationController
         LineupPlayer.create(player_id: lw["id"], position:"lw", lineup_id:lineup["id"], player_name:lw["name"])
         LineupPlayer.create(player_id: st["id"], position:"striker", lineup_id:lineup["id"], player_name:st["name"])
         LineupPlayer.create(player_id: rw["id"], position:"rw", lineup_id:lineup["id"], player_name:rw["name"])
-        
         render json: {id:lineup.id, name:lineup[:name]}, include: [:lineup_players]
     end
 

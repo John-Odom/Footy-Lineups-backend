@@ -17,7 +17,20 @@ class UsersController < ApplicationController
         else
           render json: { error: 'failed to create user' }, status: :not_acceptable
         end
+    end
+
+    def update
+      user = User.find(params["user_id"])
+      if user.valid?
+        user.update(username:params["username"], 
+          bio:params["bio"], 
+          team:params["team"], 
+          avatar:params["avatar"])
+        render json: { user: user }, status: :created
+      else
+        render json: { error: 'failed to update profile' }, status: :not_acceptable
       end
+    end
 
      
       private

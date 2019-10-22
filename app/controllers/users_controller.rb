@@ -2,12 +2,38 @@ class UsersController < ApplicationController
 
     def index
         @users=User.all
-        render json: @users, include: [:lineups]
+        render json: @users, include: [:lineups,
+           {:followees => {
+              :include => [:lineups, :followees, :followers]
+           }}, 
+           {:followers => {
+            :include => [:lineups, :followees, :followers]
+         }}]
+    end
+
+    def show
+      @user=User.find(params[:id])
+      render json: @user, include: [:lineups,
+         {:followees => {
+            :include => [:lineups, :followees, :followers]
+         }}, 
+         {:followers => {
+          :include => [:lineups, :followees, :followers]
+       }}]
     end
 
     def profile
-        render json: { user: current_user }, status: :accepted
+        render json: { user: current_user}, include: [:lineups,
+          {:followees => {
+             :include => [:lineups, :followees, :followers]
+          }}, 
+          {:followers => {
+           :include => [:lineups, :followees, :followers]
+        }}] , status: :accepted
     end
+    # def profile
+    #   render json: { user: current_user }, status: :accepted
+    # end
 
     def create
         @user = User.create(user_params)

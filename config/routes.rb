@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   get 'players/name'
   get 'players/position'
   get 'players/fifa_rating'
@@ -8,9 +9,10 @@ Rails.application.routes.draw do
   resources :players, only: [:index, :show]
   resources :lineups
   resources :lineup_players
+  resources :follows
   resources :comments
   resources :likes
-  resources :users, only: [:create, :index, :update]
+  resources :users
       post '/login', to: 'sessions#create'
       get '/login', to: 'sessions#index'
       get '/profile', to: 'users#profile'

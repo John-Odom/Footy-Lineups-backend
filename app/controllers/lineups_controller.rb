@@ -21,7 +21,6 @@ class LineupsController < ApplicationController
     end
 
     def create
-        
         lineup = Lineup.new(
             "name":params["data"]["name"],
             "user_id":params["user"]["id"],

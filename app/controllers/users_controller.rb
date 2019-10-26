@@ -36,7 +36,10 @@ class UsersController < ApplicationController
     # end
 
     def create
-        @user = User.create(user_params)
+        @user = User.new(user_params)
+        team=Team.find(params["user"]["team"]["id"])
+        @user[:team_id]=team.id
+        @user.save
         if @user.valid?
             @token = encode_token(user_id: @user.id)
           render json: { user: @user, jwt: @token }, status: :created
@@ -61,6 +64,6 @@ class UsersController < ApplicationController
      
       private
       def user_params
-        params.require(:user).permit(:username, :password, :bio, :avatar, :team)
+        params.require(:user).permit(:username, :password, :bio, :avatar)
       end
 end

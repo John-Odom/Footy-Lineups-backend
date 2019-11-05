@@ -22,22 +22,22 @@ class LineupsController < ApplicationController
 
     def create
         lineup = Lineup.new(
-            "name":params["data"]["name"],
+            "name":params["name"],
             "user_id":params["user"]["id"],
-            "formation":params["data"]["formation"],
-            "team_id":params["data"]["selectedClub"]["id"]
+            "formation":params["formation"],
+            "team_id":params["team"]["id"]
         )
-        goalkeeper=Player.find(params["data"]["goalkeeper"][0]["id"])
-        lb=Player.find(params["data"]["lb"][0]["id"])
-        lcb=Player.find(params["data"]["lcb"][0]["id"])
-        rcb=Player.find(params["data"]["rcb"][0]["id"])
-        rb=Player.find(params["data"]["rb"][0]["id"])
-        cdm=Player.find(params["data"]["cdm"][0]["id"])
-        lcam=Player.find(params["data"]["lcam"][0]["id"])
-        rcam=Player.find(params["data"]["rcam"][0]["id"])
-        lw=Player.find(params["data"]["lw"][0]["id"])
-        st=Player.find(params["data"]["striker"][0]["id"])
-        rw=Player.find(params["data"]["rw"][0]["id"])
+        goalkeeper=Player.find(params["playersInLineup"]["goalkeeper"]["id"])
+        lb=Player.find(params["playersInLineup"]["lb"]["id"])
+        lcb=Player.find(params["playersInLineup"]["lcb"]["id"])
+        rcb=Player.find(params["playersInLineup"]["rcb"]["id"])
+        rb=Player.find(params["playersInLineup"]["rb"]["id"])
+        cdm=Player.find(params["playersInLineup"]["cdm"]["id"])
+        lcam=Player.find(params["playersInLineup"]["lcam"]["id"])
+        rcam=Player.find(params["playersInLineup"]["rcam"]["id"])
+        lw=Player.find(params["playersInLineup"]["lw"]["id"])
+        striker=Player.find(params["playersInLineup"]["striker"]["id"])
+        rw=Player.find(params["playersInLineup"]["rw"]["id"])
         lineup.save
         LineupPlayer.create(player_id: goalkeeper["id"], position:"goalkeeper", lineup_id:lineup["id"], player_name:goalkeeper["name"])
         LineupPlayer.create(player_id: lb["id"], position:"lb", lineup_id:lineup["id"], player_name:lb["name"])
@@ -48,24 +48,24 @@ class LineupsController < ApplicationController
         LineupPlayer.create(player_id: lcam["id"], position:"lcam", lineup_id:lineup["id"], player_name:lcam["name"])
         LineupPlayer.create(player_id: rcam["id"], position:"rcam", lineup_id:lineup["id"], player_name:rcam["name"])
         LineupPlayer.create(player_id: lw["id"], position:"lw", lineup_id:lineup["id"], player_name:lw["name"])
-        LineupPlayer.create(player_id: st["id"], position:"striker", lineup_id:lineup["id"], player_name:st["name"])
+        LineupPlayer.create(player_id: striker["id"], position:"striker", lineup_id:lineup["id"], player_name:striker["name"])
         LineupPlayer.create(player_id: rw["id"], position:"rw", lineup_id:lineup["id"], player_name:rw["name"])
         render json: {id:lineup.id, name:lineup[:name]}, include: [:lineup_players]
     end
 
     def update
         lineup=Lineup.find(params["id"])
-        goalkeeper=Player.find_by(name:params["data"]["goalkeeper"])
-        lb=Player.find_by(name:params["data"]["lb"])
-        lcb=Player.find_by(name:params["data"]["lcb"])
-        rcb=Player.find_by(name:params["data"]["rcb"])
-        rb=Player.find_by(name:params["data"]["rb"])
-        cdm=Player.find_by(name:params["data"]["cdm"])
-        lcam=Player.find_by(name:params["data"]["lcam"])
-        rcam=Player.find_by(name:params["data"]["rcam"])
-        lw=Player.find_by(name:params["data"]["lw"])
-        striker=Player.find_by(name:params["data"]["striker"])
-        rw=Player.find_by(name:params["data"]["rw"])
+        goalkeeper=Player.find_by(name:params["goalkeeper"])
+        lb=Player.find_by(name:params["lb"])
+        lcb=Player.find_by(name:params["lcb"])
+        rcb=Player.find_by(name:params["rcb"])
+        rb=Player.find_by(name:params["rb"])
+        cdm=Player.find_by(name:params["cdm"])
+        lcam=Player.find_by(name:params["lcam"])
+        rcam=Player.find_by(name:params["rcam"])
+        lw=Player.find_by(name:params["lw"])
+        striker=Player.find_by(name:params["striker"])
+        rw=Player.find_by(name:params["rw"])
         # team.name = params["teamName"]
         lineup_players = LineupPlayer.where(lineup_id: lineup.id)
         lineup_players.each do |lineup_player|

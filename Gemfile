@@ -53,3 +53,4 @@ gem "active_model_serializers", "~> 0.10.10"
 gem "faker", "~> 2.2"
 gem 'rest-client'
 gem 'pry'
+gem 'rails_12factor', group: :production

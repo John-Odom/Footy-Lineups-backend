@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  root 'welcome#index'
   get 'players/name'
   get 'players/position'
   get 'players/fifa_rating'

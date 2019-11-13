@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
     def index
         @users=User.all
-        render json: @users, include: [:lineups,
+        render json: @users, include: [:lineups, :team, 
            {:followees => {
               :include => [:lineups, :followees, :followers]
            }}, 
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
     def show
       @user=User.find(params[:id])
-      render json: @user, include: [:lineups,
+      render json: @user, include: [:lineups, :team, 
          {:followees => {
             :include => [:lineups, :followees, :followers]
          }}, 
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     end
 
     def profile
-        render json: { user: current_user}, include: [:lineups,
+        render json: { user: current_user}, include: [:lineups, :team,
           {:followees => {
              :include => [:lineups, :followees, :followers]
           }}, 
@@ -31,9 +31,6 @@ class UsersController < ApplicationController
            :include => [:lineups, :followees, :followers]
         }}] , status: :accepted
     end
-    # def profile
-    #   render json: { user: current_user }, status: :accepted
-    # end
 
     def create
         @user = User.new(user_params)
@@ -48,14 +45,20 @@ class UsersController < ApplicationController
         end
     end
 
+
+    # Person.update(15, :user_name => 'Samuel', :group => 'expert')
+
     def update
       user = User.find(params["user_id"])
-      if user.valid?
-        user.update(username:params["username"], 
+      team = Team.find_by(club_name: params["team"])
+      if user
+        # byebug
+        updated_user = User.update(params["user_id"],
+          username:params["username"], 
           bio:params["bio"], 
-          team:params["team"], 
+          team_id:team.id, 
           avatar:params["avatar"])
-        render json: { user: user }, status: :created
+        render json: { user: updated_user }
       else
         render json: { error: 'failed to update profile' }, status: :not_acceptable
       end

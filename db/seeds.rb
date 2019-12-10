@@ -54,7 +54,7 @@ Lineup.all.each do |lineup|
     Like.create(user_id:User.last.id, lineup_id: lineup.id)
 end
 
-#create 2 simulations so that each lineup simmed once
-sim1 = Simulation.create(first_lineup_id:Lineup.first.id, second_lineup_id:Lineup.second.id, score:"3-1")
-sim2 = Simulation.create(first_lineup_id:Lineup.third.id, second_lineup_id:Lineup.fourth.id, score: "0-1")
+# create 2 simulations so that each lineup simmed once
+# sim1 = Simulation.create(first_lineup_id:Lineup.first.id, second_lineup_id:Lineup.second.id, score:"3-1")
+# sim2 = Simulation.create(first_lineup_id:Lineup.third.id, second_lineup_id:Lineup.fourth.id, score: "0-1")
 
